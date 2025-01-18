@@ -12,12 +12,37 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="NFC Convert" />
     <title>NFC Serial Converter</title>
-    <script type="module" crossorigin src="/PWA_NFC_Reader/assets/index-CLufUjH_.js"></script>
-    <link rel="stylesheet" crossorigin href="/PWA_NFC_Reader/assets/index-DbcoI-KS.css">
+    <script type="module" crossorigin src="/PWA_NFC_Reader/assets/index-dRcdGz1r.js"></script>
+    <link rel="stylesheet" crossorigin href="/PWA_NFC_Reader/assets/index-Cy2IYPdp.css">
   </head>
   <body>
     <div id="root"></div>
     <noscript>You need to enable JavaScript to run this application.</noscript>
+    <script>
+      let deferredPrompt;
+
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        document.dispatchEvent(new CustomEvent('pwaInstallable'));
+      });
+
+      window.installPWA = async () => {
+        if (deferredPrompt) {
+          deferredPrompt.prompt();
+          const { outcome } = await deferredPrompt.userChoice;
+          deferredPrompt = null;
+          return outcome;
+        }
+        return 'not-installable';
+      };
+
+      // Track successful installations
+      window.addEventListener('appinstalled', () => {
+        deferredPrompt = null;
+        console.log('PWA was installed');
+      });
+    </script>
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
