@@ -2,17 +2,34 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/png" href="/icons/icon-192x192.png" />
+    <link rel="icon" type="image/png" href="/PWA_NFC_Reader/assets/icon-192x192-C8C3gYSR.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#3b82f6" />
     <meta name="description" content="Convert NFC serial numbers to decimal format" />
     <link rel="manifest" href="/PWA_NFC_Reader/manifest.json" />
-    <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
+    <link rel="apple-touch-icon" href="/PWA_NFC_Reader/assets/icon-192x192-C8C3gYSR.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="NFC Convert" />
     <title>NFC Serial Converter</title>
     <script type="module" crossorigin src="/PWA_NFC_Reader/assets/index-CLufUjH_.js"></script>
     <link rel="stylesheet" crossorigin href="/PWA_NFC_Reader/assets/index-DbcoI-KS.css">
   </head>
   <body>
     <div id="root"></div>
+    <noscript>You need to enable JavaScript to run this application.</noscript>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then(registration => {
+              console.log('SW registered:', registration);
+            })
+            .catch(error => {
+              console.log('SW registration failed:', error);
+            });
+        });
+      }
+    </script>
   </body>
 </html>
