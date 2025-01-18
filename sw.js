@@ -4,6 +4,9 @@ workbox.setConfig({
   debug: false
 });
 
+// Set base URL for the app
+const BASE_URL = '/PWA_NFC_Reader';
+
 // Cache page navigations and assets
 workbox.routing.registerRoute(
   ({ request }) => request.mode === 'navigate',
@@ -43,6 +46,19 @@ workbox.routing.registerRoute(
       new workbox.expiration.ExpirationPlugin({
         maxEntries: 60,
         maxAgeSeconds: 30 * 24 * 60 * 60, // 30 days
+      }),
+    ],
+  })
+);
+
+// Handle base URL for navigation requests
+workbox.routing.registerRoute(
+  new RegExp('^' + BASE_URL),
+  new workbox.strategies.NetworkFirst({
+    cacheName: 'pages',
+    plugins: [
+      new workbox.expiration.ExpirationPlugin({
+        maxEntries: 50,
       }),
     ],
   })
