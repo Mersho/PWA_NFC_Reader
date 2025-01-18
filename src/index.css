@@ -1,0 +1,79 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-background text-neutral-100 antialiased;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  ::selection {
+    @apply bg-primary-500/30 text-white;
+  }
+}
+
+@layer components {
+  .gradient-border {
+    position: relative;
+    border-radius: theme('borderRadius.lg');
+    background: theme('colors.background.lighter');
+  }
+
+  .gradient-border::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(
+      135deg,
+      theme('colors.primary.500'),
+      theme('colors.secondary.500')
+    );
+    -webkit-mask: 
+      linear-gradient(#fff 0 0) content-box, 
+      linear-gradient(#fff 0 0);
+    mask: 
+      linear-gradient(#fff 0 0) content-box, 
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+  }
+
+  .glass-panel {
+    @apply bg-background-lighter bg-opacity-80 backdrop-blur-lg border border-neutral-800/50 shadow-lg;
+  }
+
+  .button-primary {
+    @apply px-4 py-2 bg-primary-500 hover:bg-primary-600 text-white rounded-lg 
+           transition-all duration-200 ease-in-out shadow-lg shadow-primary-500/25
+           hover:shadow-primary-500/40 focus:outline-none focus:ring-2 
+           focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-background;
+  }
+
+  .button-secondary {
+    @apply px-4 py-2 bg-secondary-500 hover:bg-secondary-600 text-white rounded-lg 
+           transition-all duration-200 ease-in-out shadow-lg shadow-secondary-500/25
+           hover:shadow-secondary-500/40 focus:outline-none focus:ring-2 
+           focus:ring-secondary-500 focus:ring-offset-2 focus:ring-offset-background;
+  }
+
+  .input-field {
+    @apply w-full px-4 py-2 bg-background-lighter border border-neutral-800 
+           rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 
+           focus:border-transparent transition-all duration-200 ease-in-out;
+  }
+
+  .card {
+    @apply glass-panel rounded-xl p-6;
+  }
+
+  .heading-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary-400 to-secondary-400;
+  }
+}
