@@ -4,6 +4,7 @@ import fs from 'fs'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: '/PWA_NFC_Reader/',
   plugins: [react()],
   server: {
     https: {
