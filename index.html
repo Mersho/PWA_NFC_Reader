@@ -18,6 +18,31 @@
     <noscript>You need to enable JavaScript to run this application.</noscript>
     <script type="module" src="/src/main.tsx"></script>
     <script>
+      let deferredPrompt;
+
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        document.dispatchEvent(new CustomEvent('pwaInstallable'));
+      });
+
+      window.installPWA = async () => {
+        if (deferredPrompt) {
+          deferredPrompt.prompt();
+          const { outcome } = await deferredPrompt.userChoice;
+          deferredPrompt = null;
+          return outcome;
+        }
+        return 'not-installable';
+      };
+
+      // Track successful installations
+      window.addEventListener('appinstalled', () => {
+        deferredPrompt = null;
+        console.log('PWA was installed');
+      });
+    </script>
+    <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
           navigator.serviceWorker.register('/sw.js')

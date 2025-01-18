@@ -1,8 +1,30 @@
 import { Provider } from 'react-redux';
 import { store } from './redux/store';
 import { NFCReader } from './components/NFCReader';
+import { useState, useEffect } from 'react';
+
+declare global {
+  interface Window {
+    installPWA: () => Promise<string>;
+  }
+}
 
 function App() {
+  const [isInstallable, setIsInstallable] = useState(false);
+
+  useEffect(() => {
+    const handleInstallable = () => setIsInstallable(true);
+    document.addEventListener('pwaInstallable', handleInstallable);
+    return () => document.removeEventListener('pwaInstallable', handleInstallable);
+  }, []);
+
+  const handleInstall = async () => {
+    const outcome = await window.installPWA();
+    if (outcome === 'accepted') {
+      setIsInstallable(false);
+    }
+  };
+
   return (
     <Provider store={store}>
       <div className="min-h-screen bg-gradient-to-b from-background to-background-darker">
@@ -15,6 +37,14 @@ function App() {
               A modern tool for reading NFC tags and converting their serial numbers to decimal format.
               Simply tap your NFC tag to get started.
             </p>
+            {isInstallable && (
+              <button
+                onClick={handleInstall}
+                className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              >
+                Install App
+              </button>
+            )}
           </header>
 
           <main className="max-w-2xl mx-auto">
